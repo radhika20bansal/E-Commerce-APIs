@@ -7,6 +7,7 @@ const morgan = require('morgan');
 
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+const authRouter = require('./routes/authRoute');
 
 //middlewares
 app.use(morgan('tiny'));
@@ -16,6 +17,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send('E-Commerce API');
 })
+app.use('/api/v1/auth', authRouter);
 
 //error middlewares
 app.use(notFoundMiddleware);
