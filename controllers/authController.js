@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    throw new customError.UnauthenticatedError('Invalid user credentials');
+    throw new customError.UnauthenticatedError("Invalid user credentials");
   }
 
   const isCorrectPassword = await user.comparePassword(password);
@@ -41,7 +41,11 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "Logout User" });
+  res.cookie("token", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({msg: 'user logged out'});
 };
 
 module.exports = {
