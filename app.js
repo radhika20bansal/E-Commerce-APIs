@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 const authRouter = require('./routes/authRoute');
+const userRouter = require('./routes/userRoute');
 
 //middlewares
 app.use(morgan('tiny'));
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
     res.send('E-Commerce API');
 })
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 
 //error middlewares
 app.use(notFoundMiddleware);
