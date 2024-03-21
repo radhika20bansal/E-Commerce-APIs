@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/User");
 const customError = require("../errors");
+const { attachCookiesToResponse } = require("../utils/jwt");
 
 const registerUser = async (req, res) => {
   const { email, name, password } = req.body;
@@ -13,7 +14,9 @@ const registerUser = async (req, res) => {
   const role = isFirstAccount ? "admin" : "user";
   const user = await User.create({ name, email, password, role });
 
-  res.status(StatusCodes.CREATED).json({ user });
+  const tokenUser = { name: user.name, userId: user._id, role: user.role };
+  attachCookiesToResponse(res, tokenUser);
+  res.status(StatusCodes.CREATED).json({ user: tokenUser });
 };
 
 const loginUser = async (req, res) => {

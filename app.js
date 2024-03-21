@@ -4,6 +4,7 @@ const app = express();
 const connectDB = require('./db/connect');
 require('express-async-errors');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -12,6 +13,7 @@ const authRouter = require('./routes/authRoute');
 //middlewares
 app.use(morgan('tiny'));
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET));
 
 //routes
 app.get('/', (req, res) => {
