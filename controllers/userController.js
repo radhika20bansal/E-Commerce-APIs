@@ -3,6 +3,7 @@ const User = require("../models/User");
 const customError = require("../errors");
 const createTokenUser = require("../utils/createTokenUser");
 const { attachCookiesToResponse } = require("../utils/jwt");
+const checkPermissions = require("../utils/checkPermissions");
 
 const getAllUsers = async (req, res) => {
   console.log(req.user);
@@ -16,6 +17,7 @@ const getSingleUser = async (req, res) => {
   if (!user) {
     throw new customError.NotFoundError(`User not found with id ${userId}`);
   }
+  checkPermissions(req.user, user._id);
   res.status(StatusCodes.OK).json({ user });
 };
 
