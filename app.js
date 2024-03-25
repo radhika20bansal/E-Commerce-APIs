@@ -10,6 +10,7 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 const authRouter = require('./routes/authRoute');
 const userRouter = require('./routes/userRoute');
+const productRouter = require('./routes/productRoute');
 
 //middlewares
 app.use(morgan('tiny'));
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/products', productRouter);
 
 //error middlewares
 app.use(notFoundMiddleware);
