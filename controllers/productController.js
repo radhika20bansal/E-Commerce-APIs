@@ -2,6 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const Product = require("../models/Product");
 const customError = require("../errors");
 const path = require("path");
+const Review = require("../models/Review");
 
 const createProduct = async (req, res) => {
   req.body.user = req.user.userId;
@@ -16,7 +17,7 @@ const getAllProducts = async (req, res) => {
 
 const getSingleProduct = async (req, res) => {
   const { id: productId } = req.params;
-  const product = await Product.findById({ _id: productId });
+  const product = await Product.findById({ _id: productId }).populate('reviews');
   if (!product) {
     throw new customError.NotFoundError(`No product with id: ${productId}`);
   }
@@ -71,6 +72,13 @@ const uploadImage = async (req, res) => {
   res.status(StatusCodes.OK).json({ image: `/uploads/${productImage.name}` });
 };
 
+
+const getSingleProductReviews = async(req, res) => {
+  const {id: productId} = req.params;
+  const reviews = await Review.find({product: productId});
+  res.status(StatusCodes.OK).json({reviews});
+}
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -78,4 +86,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   uploadImage,
+  getSingleProductReviews
 };
