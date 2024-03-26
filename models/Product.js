@@ -66,11 +66,17 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+//To access review model and show the reviews associated with the product in product model response
 ProductSchema.virtual("reviews", {
   ref: "Review",
   localField: "_id",
   foreignField: "product",
   justOne: false,
+});
+
+//If product is removed associated reviews should be removed
+ProductSchema.pre("remove", async function (next) {
+  await this.model("Review").deleteMany({ product: this._id });
 });
 
 module.exports = mongoose.model("Product", ProductSchema);
