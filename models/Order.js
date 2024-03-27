@@ -34,7 +34,7 @@ const OrderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    subTotal: {
+    subtotal: {
       type: Number,
       required: true,
     },
@@ -54,7 +54,6 @@ const OrderSchema = new mongoose.Schema(
     },
     paymentIntentId: {
       type: String,
-      required: true,
     },
     user: {
       type: mongoose.Types.ObjectId,
