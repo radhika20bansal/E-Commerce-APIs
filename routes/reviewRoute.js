@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-  authorizePermissions,
   authenticateUser,
 } = require("../middleware/authentication");
 const {
